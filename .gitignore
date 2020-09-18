@@ -123,3 +123,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# tensorflow, keras model data. (too heavy)
+.TF/save/
+*.h5
+*.tflite
