@@ -2,9 +2,10 @@
  MNIST tensorflow for model comparision
 
 # condition
-1. python: 3.8.5
+1. python: 3.7.0
 2. tensorflow: 2.3.0
 3. GPU: Nvidia RTX 2060 Super
+4. OS: Windows 10 2004
 
 # Purpose and methods
 1. As I want to compare the speed of prediction by trained models, i used MNIST dataset for each models
