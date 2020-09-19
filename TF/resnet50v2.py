@@ -107,7 +107,7 @@ def_input = Input(shape=(28,28,3))
 ratio = int(224/28)
 upsampled = UpSampling2D((ratio, ratio))(def_input)
 # model =  tf.keras.applications.ResNet101(input_tensor=upsampled, weights=None, classes=n_classes)
-model =  tf.keras.applications.resnet.ResNet50v2(input_tensor=upsampled, weights=None, classes=n_classes)
+model =  tf.keras.applications.resnet_v2.ResNet50V2(input_tensor=upsampled, weights=None, classes=n_classes)
 # model.add(Dense(n_classes, activation='softmax'))
 
 print("=================")

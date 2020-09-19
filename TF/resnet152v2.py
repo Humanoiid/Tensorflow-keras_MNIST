@@ -107,7 +107,7 @@ def_input = Input(shape=(28,28,3))
 ratio = int(224/28)
 upsampled = UpSampling2D((ratio, ratio))(def_input)
 # model =  tf.keras.applications.ResNet101(input_tensor=upsampled, weights=None, classes=n_classes)
-model =  tf.keras.applications.resnet.ResNet152v2(input_tensor=upsampled, weights=None, classes=n_classes)
+model =  tf.keras.applications.resnet_v2.ResNet152V2(input_tensor=upsampled, weights=None, classes=n_classes)
 # model.add(Dense(n_classes, activation='softmax'))
 
 print("=================")
@@ -129,11 +129,11 @@ model.compile(optimizer='rmsprop',
 #  train_generator, # 훈련셋 지정
 #  steps_per_epoch=200, # 총 훈련셋 수 / 배치 사이즈 (= 1000/50)
 #  epochs=150) # 전체 훈련셋 학습 반복 횟수 지정
-model.fit(X_train_rgb, y_train, epochs=5, batch_size=32)
+model.fit(X_train_rgb, y_train, epochs=5, batch_size=30)
 
 # model evaluation
 # link: https://tykimos.github.io/2017/06/10/Model_Save_Load/
-loss_and_metrics = model.evaluate(X_test_rgb, y_test, batch_size=32)
+loss_and_metrics = model.evaluate(X_test_rgb, y_test, batch_size=30)
 print('')
 print('loss_and_metrics : ' + str(loss_and_metrics))
 
