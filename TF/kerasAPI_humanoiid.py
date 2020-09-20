@@ -52,7 +52,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
     logdir = (save_path +'keras/' + ".logs/" + model_name_final +'/'+ datetime.now().strftime("%Y%m%d-%H%M%S"))
     tf.io.gfile.makedirs(logdir)
     model_callback = [tf.keras.callbacks.EarlyStopping(patience=2),
-                      tf.keras.callbacks.ModelCheckpoint(filepath='model.{epoch:02d}-{val_loss:.2f}.h5'),
+                      tf.keras.callbacks.ModelCheckpoint(filepath=save_path +'keras/' + ".logs/" + model_name_final +'/'+'model.{epoch:02d}-{val_loss:.2f}.h5'),
                       tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, write_images=True, profile_batch=0, update_freq=1000)
                      ]
     
