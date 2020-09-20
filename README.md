@@ -55,5 +55,4 @@
     * '~model_name~_Loss.png': saved keras model training history of Loss
 
 # Issue
-  * Some models are not compatible with small image size. (AlexNet may need 227x227, MobileNetV2 may need 224x224). need to check it..
   * Accuracy seems low but, will be modified... someday...

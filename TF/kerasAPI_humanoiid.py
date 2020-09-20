@@ -26,6 +26,8 @@ from tensorflow.keras import optimizers
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping
 
+# from keras import backend as K
+# K.set_image_dim_ordering('tf')
 # from tensorflow.keras.preprocessing import images
 
 print(tf.__version__)
@@ -129,6 +131,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return
         
     elif(model_name == 'VGG16'):
@@ -140,6 +143,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'ResNet50'):
@@ -152,6 +156,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'ResNet50V2'):
@@ -164,6 +169,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'ResNet101'):
@@ -175,6 +181,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'ResNet101V2'):
@@ -186,6 +193,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'ResNet152'):
@@ -197,6 +205,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'ResNet152V2'):
@@ -208,6 +217,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'MobileNet'):
@@ -220,6 +230,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'MobileNetV2'):
@@ -232,6 +243,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return            
             
     elif(model_name == 'AlexNet'):
@@ -243,6 +255,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return
     else:
         try:
@@ -253,6 +266,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             print(type(ex), file=sys_stdout_backup)
             print('Error information: ',ex, file=sys_stdout_backup)
             print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
             return
 #         print("test model(just simple fast model)")
 #         model = Sequential() # 순차 모델 생성
@@ -375,7 +389,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
     print("finish training date and time : " + str(finish_training), file=sys_stdout_backup)  
     print("finish evaluation date and time : " + str(finish_evaluation), file=sys_stdout_backup)
     print("save history date and time : " + str(save_history), file=sys_stdout_backup)
-    
+    tf.keras.backend.clear_session()
     return
     
     
@@ -385,7 +399,7 @@ def AlexNet(image_size, number_classes):
     # https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf
     model = models.Sequential()
     model.add(layers.Conv2D(filters=96, kernel_size=(11,11), strides=(4,4), 
-                            activation='relu', input_shape=(image_size,image_size,3)))
+                            activation='relu', input_shape=(image_size,image_size,3), padding="same"))
     
     model.add(layers.BatchNormalization())
     model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
