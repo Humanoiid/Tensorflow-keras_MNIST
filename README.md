@@ -12,7 +12,8 @@
 1. As I want to compare the speed of prediction by trained models, i used MNIST dataset for each models
 2. Every models use (224,224,3) color image. I resize original MNIST digitized numger data to (28x28 => 64x64) and stack 3 same data 3 for GRAY2RGB convert.
 3. MNIST digit data and label was from tensorflow keras dataset.
-4. Saved model was converted to tensorflow lite.
+
+* those models are use for classification in mobile application as below.
   * later it will move to this link: https://github.com/Humanoiid/Tensorflow_Lite_modelTest
 
 
