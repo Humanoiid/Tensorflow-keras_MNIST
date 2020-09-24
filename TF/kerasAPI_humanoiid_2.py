@@ -1,8 +1,9 @@
-
 import argparse
 import sys
 import os
 from datetime import datetime
+import pyautogui
+
 
 # Tensorflow ans tf.keras
 import tensorflow as tf
@@ -247,31 +248,31 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             tf.keras.backend.clear_session()
             return
                     
-#     elif(model_name == 'MobileNetV3_Large'):
-#         # https://arxiv.org/abs/1905.02244
-#         try:
-#             model = MobileNetV3-Large(def_input, n_filter, n_blocks, n_FC, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
-#             return
+    elif(model_name == 'MobileNetV3_Large'):
+        # https://arxiv.org/abs/1905.02244
+        try:
+            model = MobileNetV3-Large(def_input, n_filter, n_blocks, n_FC, n_classes)
+        except Exception as ex:
+            print(type(ex))
+            print('Error information: ',ex)
+            print(type(ex), file=sys_stdout_backup)
+            print('Error information: ',ex, file=sys_stdout_backup)
+            print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
+            return
         
-#     elif(model_name == 'MobileNetV3_Small'):
-#         # https://arxiv.org/abs/1905.02244
-#         try:
-#             model = MobileNetV3-Small(def_input, n_filter, n_blocks, n_FC, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
-#             return
+    elif(model_name == 'MobileNetV3_Small'):
+        # https://arxiv.org/abs/1905.02244
+        try:
+            model = MobileNetV3-Small(def_input, n_filter, n_blocks, n_FC, n_classes)
+        except Exception as ex:
+            print(type(ex))
+            print('Error information: ',ex)
+            print(type(ex), file=sys_stdout_backup)
+            print('Error information: ',ex, file=sys_stdout_backup)
+            print('Model Error. skip', file=sys_stdout_backup)
+            tf.keras.backend.clear_session()
+            return
             
     elif(model_name == 'AlexNet'):
         try:
@@ -296,7 +297,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
 #             print('Error information: ',ex, file=sys_stdout_backup)
 #             print('Model Error. skip', file=sys_stdout_backup)
 #             tf.keras.backend.clear_session()
-        return
+            return
         
     ## model summary save
     print('[model summary]==============')
@@ -433,3 +434,77 @@ def AlexNet(image_size, number_classes):
     model.add(layers.Dense(number_classes, activation='softmax'))
 
     return model
+
+
+def MobileNetV3_Large(input_tens, num_filter, num_blocks, num_fullyCon, number_classes):
+    # https://towardsdatascience.com/implementing-alexnet-cnn-architecture-using-tensorflow-2-0-and-keras-2113e090ad98
+    # https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf
+    
+    conv2d_1 = layers.Conv2D(16*num_filter,(1,1), padding='same', activation=Activation(h_swish))(input_tens)
+    conv2d_1 = layers.bneck(16*num_filter,(1,1), padding='same', activation=Activation(h_swish))(input_tens)
+    
+    model = models.Sequential()
+    model.add(layers.Conv2D(filters=96, kernel_size=(11,11), strides=(4,4), 
+                            activation='relu', input_shape=(image_size,image_size,3), padding="same"))
+    
+    model.add(layers.BatchNormalization())
+    model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
+    
+    model.add(layers.Conv2D(filters=256, kernel_size=(5,5), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
+    
+    model.add(layers.Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
+    
+    model.add(layers.Flatten())
+    model.add(layers.Dense(4096, activation='relu'))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(4096, activation='relu'))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(number_classes, activation='softmax'))
+
+    return model
+
+def MobileNetV3_Small(image_size, number_classes):
+    # https://towardsdatascience.com/implementing-alexnet-cnn-architecture-using-tensorflow-2-0-and-keras-2113e090ad98
+    # https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf
+    model = models.Sequential()
+    model.add(layers.Conv2D(filters=96, kernel_size=(11,11), strides=(4,4), 
+                            activation='relu', input_shape=(image_size,image_size,3), padding="same"))
+    
+    model.add(layers.BatchNormalization())
+    model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
+    
+    model.add(layers.Conv2D(filters=256, kernel_size=(5,5), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
+    
+    model.add(layers.Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
+    model.add(layers.BatchNormalization())
+    model.add(layers.MaxPool2D(pool_size=(3,3), strides=(2,2)))
+    
+    model.add(layers.Flatten())
+    model.add(layers.Dense(4096, activation='relu'))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(4096, activation='relu'))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(number_classes, activation='softmax'))
+
+    return model
+                             
+                             
+                             
+ def h_swish(x):
+    """Hard swish
+    """
+    return x * K.relu(x + 3.0, max_value=6.0) / 6.0
