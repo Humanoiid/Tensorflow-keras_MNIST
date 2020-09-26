@@ -35,7 +35,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 print(tf.__version__)
 
-def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size, epoch_size, sys_stdout_backup ,
+def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size, epoch_size, sys_stdout_backup, reportLog,
                        num_filter, num_blocks, num_fullyCon, n_classes, ab_type) :
     
     ### Paramters
@@ -57,18 +57,22 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
 #     logdir=save_path +'keras/' + ".logs/" + datetime.now().strftime("%Y%m%d-%H%M%S")
     logdir = (save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/'+ datetime.now().strftime("%Y%m%d-%H%M%S"))
     tf.io.gfile.makedirs(logdir)
+#     model_callback = [tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=2),
+# #                       tf.keras.callbacks.ModelCheckpoint(filepath=save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/'+'model.{epoch:02d}-{val_loss:.2f}.h5'),
+#                       tf.keras.callbacks.ModelCheckpoint(filepath=save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/'+'best_model.h5', monitor='val_loss', mode='min', save_best_only=True),
+#                       tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, write_images=True, profile_batch=0, update_freq=1000)
+#                      ]
+    log_path = save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/'
+#     model_callback = [tf.keras.callbacks.ModelCheckpoint(filepath=log_path+'model.best_model.h5',monitor='loss', verbose=1, save_best_only=True,save_freq='epoch'),
+#                       tf.keras.callbacks.EarlyStopping(monitor='loss', mode='min', patience=3),
+#                       tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, write_images=True, profile_batch=0, update_freq=1000)
+#                      ]
     model_callback = [tf.keras.callbacks.EarlyStopping(patience=2),
-#                       tf.keras.callbacks.ModelCheckpoint(filepath=save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/'+'model.{epoch:02d}-{val_loss:.2f}.h5'),
-                      tf.keras.callbacks.ModelCheckpoint(filepath=save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/'+'best_model.h5', monitor='val_loss', mode='min', save_best_only=True),
+                      tf.keras.callbacks.ModelCheckpoint(filepath=log_path+'model.{epoch:02d}-{val_loss:.2f}.h5'),
                       tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=True, write_images=True, profile_batch=0, update_freq=1000)
                      ]
-#     logdir = (save_path +'keras/'+ model_name + ab_type + '/' + ".logs/" + model_name_final +'/')
-#     tf.io.gfile.makedirs(logdir)
-#     model_callback = [tf.keras.callbacks.EarlyStopping(patience=2),
-#                       tf.keras.callbacks.ModelCheckpoint(filepath=logdir+'model.{epoch:02d}-{val_loss:.2f}.h5'),
-#                       tf.keras.callbacks.TensorBoard(log_dir=logdir + datetime.now().strftime("%Y%m%d-%H%M%S"), histogram_freq=1, write_graph=True, write_images=True, profile_batch=0, update_freq=1000)
-#                      ]
-    
+#                       tf.keras.callbacks.ModelCheckpoint(filepath=log_path+'best_model.h5', monitor='val_accuracy', mode='max', save_best_only=True),
+#     tf.keras.callbacks.ModelCheckpoint(filepath=log_path+'model.{epoch:02d}-{val_loss:.2f}.h5',monitor='val_loss', verbose=1, save_best_only=True),
     
 
     
@@ -159,55 +163,9 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
             tf.keras.backend.clear_session()
             return
                     
-#     elif(model_name == 'MobileNetV3_Large'):
-#         # https://arxiv.org/abs/1905.02244
-#         try:
-#             model = MobileNetV3-Large(def_input, n_filter, n_blocks, n_FC, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
-#             return
-        
-#     elif(model_name == 'MobileNetV3_Small'):
-#         # https://arxiv.org/abs/1905.02244
-#         try:
-#             model = MobileNetV3-Small(def_input, n_filter, n_blocks, n_FC, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
-#             return
-            
-#     elif(model_name == 'AlexNet'):
-#         try:
-#             model = AlexNet(img_size, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
-#             return
     else:
         
         print('\n No specific model. return the process' ,file=sys_stdout_backup)
-#         try:
-#             model = AlexNet(img_size, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
         return
         
     ## model summary save
@@ -225,6 +183,8 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
     opt = 'sgd'
     los = 'categorical_crossentropy'
     met = ['accuracy']
+#     met = [keras.metrics.Accuracy()]
+    #'loss','accuracy','val_loss','val_accuracy']
     model.compile(optimizer=opt,
                     loss=los,
                     metrics=met)
@@ -240,17 +200,31 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
 
     
     
-    # 4. 모델 학습시키기
-    # model.fit_generator(
-    #  train_generator, # 훈련셋 지정
-    #  steps_per_epoch=200, # 총 훈련셋 수 / 배치 사이즈 (= 1000/50)
-    #  epochs=150) # 전체 훈련셋 학습 반복 횟수 지정
-    training_history = model.fit(X_train, y_train, validation_split=0.1, epochs=epoch_size, batch_size=bat_size, verbose=0, callbacks=model_callback)
-#     training_history = model.fit(X_train[1:10], y_train[1:10], validation_split=0.1, epochs=epoch_size, batch_size=bat_size, verbose=0, callbacks=model_callback)
+#     # system out 바꾸기.
+#     sys_stdout_backup
+#     reportLog
+    
+    sys.stdout = sys_stdout_backup
+    
+#     4. 모델 학습시키기
+#     model.fit_generator(
+#      train_generator, # 훈련셋 지정
+#      steps_per_epoch=200, # 총 훈련셋 수 / 배치 사이즈 (= 1000/50)
+#      epochs=150) # 전체 훈련셋 학습 반복 횟수 지정
+#     training_history = model.fit(X_train, y_train, validation_split=0.02, epochs=epoch_size, batch_size=bat_size, verbose=1, callbacks=model_callback)
+
+#     training_history = model.fit(X_train, validation_data=(X_test, y_test), epochs=epoch_size, batch_size=bat_size, verbose=1, callbacks=model_callback)
+
+    training_history = model.fit(X_train, y_train, validation_split=0.02, epochs=epoch_size, batch_size=bat_size, verbose=1, callbacks=model_callback)
+
 #     print('## training loss and acc ##')
 #     print(hist.history['loss'])
 #     print(hist.history['accuracy'])
 
+
+    sys.stdout = reportLog
+    
+    
     ################### System
     print('[Training. Done.] ', file=sys_stdout_backup)
     
@@ -262,7 +236,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
 
     # model evaluation
     # link: https://tykimos.github.io/2017/06/10/Model_Save_Load/
-    result = model.evaluate(X_test, y_test, batch_size=bat_size)
+    result = model.evaluate(X_test, y_test, batch_size=bat_size, verbose=2)
     print('')
     print('loss_and_metrics : ' + str(result))
     print('', file=sys_stdout_backup)

@@ -287,15 +287,7 @@ def func_keras_Models ( save_path, data_name, model_name, img_size, ch, bat_size
     else:
         
         print('\n No specific model. return the process' ,file=sys_stdout_backup)
-#         try:
-#             model = AlexNet(img_size, n_classes)
-#         except Exception as ex:
-#             print(type(ex))
-#             print('Error information: ',ex)
-#             print(type(ex), file=sys_stdout_backup)
-#             print('Error information: ',ex, file=sys_stdout_backup)
-#             print('Model Error. skip', file=sys_stdout_backup)
-#             tf.keras.backend.clear_session()
+
         return
         
     ## model summary save
